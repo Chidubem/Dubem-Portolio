@@ -6,453 +6,1166 @@
   <meta name="description" content="Portfolio of Chidubem — Data Analyst & AI/ML Engineer, transforming data into intelligent solutions that drive real-world impact." />
   <title>Chidubem | Data Analyst & AI/ML Engineer</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { darkMode: 'class' }
-  </script>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <link rel="icon" href="img/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
 
   <style>
     :root {
-      --glass: rgba(255,255,255,0.06);
-      --glass-2: rgba(255,255,255,0.03);
+      --bg: #080c12;
+      --bg2: #0d1320;
+      --bg3: #111827;
+      --card: #0f1923;
+      --border: rgba(255,255,255,0.07);
+      --teal: #2dd4bf;
+      --cyan: #22d3ee;
+      --teal-dim: rgba(45,212,191,0.12);
+      --teal-glow: rgba(45,212,191,0.3);
+      --text: #e2e8f0;
+      --muted: #8892a4;
+      --white: #ffffff;
     }
-    * { box-sizing: border-box; transition: background-color .25s, color .25s, transform .25s, box-shadow .25s; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
 
-    /* Reveal Animations */
-    .reveal { opacity: 0; transform: scale(.98) translateY(18px); transform-origin: center; }
-    .reveal.visible { opacity: 1; transform: scale(1) translateY(0); animation: zoomBounce .8s both; }
-    @keyframes zoomBounce {
-      0% { transform: scale(.98) translateY(18px); }
-      60% { transform: scale(1.02) translateY(-6px); }
-      100% { transform: scale(1) translateY(0); }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* Hover-rise + soft teal glow */
-    .hover-rise {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .hover-rise:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 20px rgba(45, 212, 191, 0.35);
-    }
-
-    /* Remove glow from profile photo */
-    .hero-image img:hover {
-      transform: none !important;
-      box-shadow: none !important;
+    /* ===== NOISE OVERLAY ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
     }
 
-    /* Mobile menu */
-    #mobile-menu { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
-    #mobile-menu.open { max-height: 420px; }
+    /* ===== AMBIENT GLOW BLOBS ===== */
+    .blob-wrap {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.08;
+    }
+    .blob-1 { width: 600px; height: 600px; background: var(--teal); top: -200px; left: -200px; animation: blobFloat 18s ease-in-out infinite; }
+    .blob-2 { width: 500px; height: 500px; background: var(--cyan); bottom: -100px; right: -100px; animation: blobFloat 22s ease-in-out infinite reverse; }
+    .blob-3 { width: 300px; height: 300px; background: #818cf8; top: 50%; left: 50%; animation: blobFloat 15s ease-in-out infinite 4s; }
+    @keyframes blobFloat { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(40px,-30px) scale(1.05); } 66% { transform: translate(-20px,40px) scale(0.97); } }
 
-    /* Certificates */
-    .cert-img { width:100%; height:auto; object-fit:contain; background:#fff; padding:10px; border-radius:12px; }
+    /* ===== HEADER ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8,12,18,0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      background: linear-gradient(90deg, var(--teal), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+    nav a:hover { color: var(--teal); background: var(--teal-dim); }
+    .nav-desktop { display: flex; gap: 4px; align-items: center; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .btn-hire {
+      background: linear-gradient(135deg, var(--teal), var(--cyan));
+      color: #080c12;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 8px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+      font-family: 'Syne', sans-serif;
+    }
+    .btn-hire:hover { opacity: 0.9; transform: translateY(-1px); }
+    #menu-toggle { background: none; border: 1px solid var(--border); color: var(--muted); padding: 8px 12px; border-radius: 8px; cursor: pointer; display: none; font-size: 1.1rem; }
+    #mobile-menu { max-height: 0; overflow: hidden; transition: max-height .35s ease; background: var(--bg2); border-bottom: 1px solid var(--border); }
+    #mobile-menu.open { max-height: 400px; }
+    #mobile-menu a { display: block; padding: 14px 24px; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); font-size: 0.95rem; transition: color 0.2s, padding-left 0.2s; }
+    #mobile-menu a:hover { color: var(--teal); padding-left: 32px; }
 
-    /* Back-to-top */
+    /* ===== MAIN CONTAINER ===== */
+    main { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* ===== REVEAL ===== */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 0 60px;
+      position: relative;
+    }
+    .hero-content { display: flex; align-items: center; gap: 64px; width: 100%; }
+    .hero-text { flex: 1; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--teal-dim);
+      border: 1px solid rgba(45,212,191,0.25);
+      color: var(--teal);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+      color: var(--white);
+    }
+    .hero-title .accent { background: linear-gradient(90deg, var(--teal), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-desc { color: var(--muted); font-size: 1.1rem; max-width: 520px; margin-bottom: 36px; line-height: 1.8; }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--teal), var(--cyan));
+      color: #080c12;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      padding: 13px 26px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 30px var(--teal-glow); }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text);
+      font-weight: 500;
+      padding: 13px 26px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border: 1px solid var(--border);
+      transition: transform 0.25s, border-color 0.25s, color 0.25s;
+    }
+    .btn-outline:hover { transform: translateY(-3px); border-color: var(--teal); color: var(--teal); }
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--white); line-height: 1; }
+    .stat-num span { background: linear-gradient(90deg, var(--teal), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .hero-image { flex-shrink: 0; width: 340px; position: relative; }
+    .hero-image img { width: 100%; border-radius: 20px; display: block; position: relative; z-index: 2; border: 1px solid var(--border); }
+    .hero-image::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--teal), transparent, var(--cyan));
+      z-index: 1;
+      opacity: 0.5;
+    }
+    .hero-image::after {
+      content: '';
+      position: absolute;
+      inset: 20px;
+      border-radius: 22px;
+      background: var(--teal);
+      filter: blur(60px);
+      opacity: 0.12;
+      z-index: 0;
+    }
+
+    /* ===== SECTION TITLE ===== */
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+    .section-label::before { content: ''; width: 28px; height: 2px; background: var(--teal); border-radius: 2px; }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .section-sub { color: var(--muted); max-width: 520px; font-size: 1rem; }
+
+    /* ===== ABOUT ===== */
+    #about { padding: 120px 0; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-text p { color: var(--muted); line-height: 1.9; margin-bottom: 18px; }
+    .about-text p strong { color: var(--text); }
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .skill-pill {
+      background: var(--teal-dim);
+      border: 1px solid rgba(45,212,191,0.2);
+      color: var(--teal);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .about-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--teal), var(--cyan)); }
+    .about-card-item { display: flex; align-items: flex-start; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .about-card-item:last-child { border-bottom: none; }
+    .about-icon { width: 42px; height: 42px; border-radius: 10px; background: var(--teal-dim); display: grid; place-items: center; flex-shrink: 0; color: var(--teal); font-size: 1.1rem; }
+    .about-card-item h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--white); margin-bottom: 3px; }
+    .about-card-item p { font-size: 0.85rem; color: var(--muted); }
+
+    /* ===== PROJECTS ===== */
+    #projects { padding: 120px 0; }
+    .project-tabs { display: flex; gap: 8px; margin-bottom: 48px; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 9px 20px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .tab-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .tab-btn.active { background: var(--teal-dim); border-color: var(--teal); color: var(--teal); }
+    .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
+    .project-panel { display: none; }
+    .project-panel.active { display: block; }
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+    .project-card:hover { transform: translateY(-6px); border-color: rgba(45,212,191,0.35); box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px var(--teal-glow); }
+    .project-img { width: 100%; height: 200px; object-fit: cover; display: block; }
+    .project-img-placeholder {
+      width: 100%;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .project-body { padding: 24px; }
+    .project-type {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 10px;
+    }
+    .project-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--white); margin-bottom: 10px; }
+    .project-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 20px; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .tag { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted); padding: 3px 10px; border-radius: 4px; font-size: 0.75rem; }
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: gap 0.2s;
+    }
+    .project-link:hover { gap: 12px; }
+
+    /* ===== CERTIFICATES ===== */
+    #certificates { padding: 120px 0; }
+    .cert-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .cert-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      transition: transform 0.3s, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .cert-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--teal), transparent); }
+    .cert-card:hover { transform: translateY(-5px); border-color: rgba(45,212,191,0.3); }
+    .cert-img { width: 100%; height: auto; border-radius: 10px; display: block; margin-bottom: 16px; background: #fff; padding: 8px; }
+    .cert-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .cert-card p { color: var(--muted); font-size: 0.88rem; }
+
+    /* ===== TECH STACK ===== */
+    #tech-stack { padding: 120px 0; }
+    .stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 16px; margin-top: 48px; }
+    .stack-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 12px;
+      text-align: center;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      cursor: default;
+    }
+    .stack-item:hover { transform: translateY(-5px); border-color: rgba(45,212,191,0.4); box-shadow: 0 8px 25px rgba(45,212,191,0.12); }
+    .stack-item img { width: 44px; height: 44px; object-fit: contain; margin: 0 auto 10px; display: block; }
+    .stack-item span { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+
+    /* ===== CONTACT ===== */
+    #contact { padding: 120px 0; }
+    .contact-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-wrap::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: 50%; transform: translateX(-50%);
+      width: 400px; height: 400px;
+      background: var(--teal);
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.06;
+    }
+    .contact-wrap h2 { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: var(--white); margin-bottom: 14px; letter-spacing: -0.02em; }
+    .contact-wrap p { color: var(--muted); max-width: 480px; margin: 0 auto 36px; font-size: 1rem; }
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--teal), var(--cyan));
+      color: #080c12;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      padding: 15px 32px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .contact-email:hover { transform: translateY(-3px); box-shadow: 0 14px 35px var(--teal-glow); }
+
+    /* ===== SOCIAL ===== */
+    .social-bar { display: flex; justify-content: center; gap: 16px; margin-top: 40px; }
+    .social-btn {
+      width: 52px; height: 52px;
+      display: grid; place-items: center;
+      border-radius: 12px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: all 0.25s;
+    }
+    .social-btn:hover { background: var(--teal-dim); border-color: var(--teal); color: var(--teal); transform: translateY(-3px); }
+    .social-btn.linkedin:hover { background: rgba(10,102,194,0.15); border-color: #0a66c2; color: #0a66c2; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* ===== BACK TO TOP ===== */
     #backToTop {
-      position: fixed; right: 20px; bottom: 28px; z-index: 60;
-      width: 48px; height: 48px; border-radius: 999px; display: grid; place-items: center;
-      background: linear-gradient(90deg,#14b8a6,#0ea5e9); color: #fff;
-      box-shadow: 0 6px 20px rgba(2,6,23,.35);
-      transform: translateY(12px); opacity: 0; pointer-events: none; transition: all .28s;
+      position: fixed; right: 24px; bottom: 32px; z-index: 60;
+      width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--teal), var(--cyan));
+      color: #080c12; border: none; cursor: pointer;
+      font-size: 1.1rem;
+      box-shadow: 0 6px 20px var(--teal-glow);
+      transform: translateY(20px); opacity: 0; pointer-events: none;
+      transition: all .3s;
     }
     #backToTop.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    #backToTop:hover { transform: translateY(-3px); }
 
-    /* Social Icons Styling */
-    .social-icon-box {
-        display: grid;
-        place-items: center;
-        width: 60px;
-        height: 60px;
-        border-radius: 999px;
-        background-color: var(--glass); /* Slate-800 equivalent with transparency */
-        color: #94a3b8; /* Slate-400 equivalent */
-        transition: all 0.3s ease;
-    }
-    .social-icon-box:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 4px 15px rgba(20, 184, 166, 0.4);
-    }
-    .social-icon-box:hover .icon-default {
-        display: none;
-    }
-    .social-icon-box:hover .icon-hover {
-        display: block;
-        color: #2dd4bf; /* Teal-400 */
-    }
-    .icon-hover { display: none; }
-    .linkedin-color { background-color: #0A66C2; color: white !important; }
+    /* ===== DIVIDER ===== */
+    .divider { width: 100%; height: 1px; background: var(--border); margin: 0; }
 
-    @media (max-width:767px) {
-      .hero-image { max-width: 320px; margin: 0 auto; }
+    /* ===== RESPONSIVE — MOBILE FIRST ===== */
+
+    /* ── Tablet: 600px–899px ── */
+    @media (max-width: 899px) {
+      main { padding: 0 20px; }
+
+      /* Hero */
+      #hero { min-height: auto; padding: 72px 0 48px; }
+      .hero-content { flex-direction: column-reverse; gap: 32px; align-items: flex-start; }
+      .hero-image {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+        align-self: center;
+      }
+      .hero-title { font-size: clamp(2.4rem, 8vw, 3.2rem); }
+      .hero-desc { font-size: 1rem; }
+      .hero-stats { gap: 24px; margin-top: 36px; padding-top: 24px; }
+      .stat-num { font-size: 1.7rem; }
+
+      /* About */
+      #about { padding: 80px 0; }
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+
+      /* Projects */
+      #projects { padding: 80px 0; }
+      .project-grid { grid-template-columns: 1fr 1fr; }
+
+      /* Certs */
+      #certificates { padding: 80px 0; }
+      .cert-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+
+      /* Stack */
+      #tech-stack { padding: 80px 0; }
+      .stack-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 12px; }
+
+      /* Contact */
+      #contact { padding: 80px 0; }
+      .contact-wrap { padding: 48px 32px; }
+      .contact-wrap h2 { font-size: 2rem; }
+    }
+
+    /* ── Mobile: max 599px ── */
+    @media (max-width: 599px) {
+      main { padding: 0 16px; }
+
+      /* Header */
+      .header-inner { padding: 0 16px; height: 60px; }
+      .logo { font-size: 1.15rem; }
       .nav-desktop { display: none; }
+      .btn-hire { display: none; }
+      #menu-toggle { display: flex; align-items: center; justify-content: center; padding: 8px 11px; font-size: 1rem; }
+
+      /* Mobile menu upgrade */
+      #mobile-menu a {
+        padding: 16px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      #mobile-menu a::before {
+        content: '—';
+        color: var(--teal);
+        font-size: 0.7rem;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      #mobile-menu a:hover::before { opacity: 1; }
+
+      /* Hero */
+      #hero {
+        padding: 56px 0 40px;
+        min-height: auto;
+      }
+      .hero-content { gap: 28px; align-items: center; }
+      .hero-image {
+        width: 100%;
+        max-width: 260px;
+        margin: 0 auto;
+      }
+      .hero-badge {
+        font-size: 0.72rem;
+        padding: 5px 13px;
+        margin-bottom: 18px;
+      }
+      .hero-title {
+        font-size: clamp(2.1rem, 11vw, 2.8rem);
+        margin-bottom: 14px;
+        letter-spacing: -0.025em;
+      }
+      .hero-desc {
+        font-size: 0.95rem;
+        margin-bottom: 28px;
+        line-height: 1.75;
+      }
+      .hero-ctas {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+      }
+      .btn-primary, .btn-outline {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 20px;
+        font-size: 0.95rem;
+        border-radius: 12px;
+      }
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+        text-align: center;
+      }
+      .hero-stats > div {
+        padding: 0 8px;
+        border-right: 1px solid var(--border);
+      }
+      .hero-stats > div:last-child { border-right: none; }
+      .stat-num { font-size: 1.6rem; }
+      .stat-label { font-size: 0.68rem; }
+
+      /* Section headings */
+      #about, #projects, #certificates, #tech-stack, #contact { padding: 64px 0; }
+      .section-title { font-size: clamp(1.7rem, 7vw, 2.2rem); }
+      .section-sub { font-size: 0.92rem; }
+
+      /* About */
+      .about-grid { gap: 28px; }
+      .about-card { padding: 24px 20px; }
+      .about-card-item { gap: 14px; padding: 16px 0; }
+      .about-icon { width: 38px; height: 38px; font-size: 1rem; }
+      .about-card-item h4 { font-size: 0.9rem; }
+      .about-card-item p { font-size: 0.82rem; }
+      .skills-grid { gap: 8px; }
+      .skill-pill { font-size: 0.78rem; padding: 5px 11px; }
+      .about-text p { font-size: 0.93rem; }
+
+      /* About CTA buttons */
+      .about-text > div[style] {
+        flex-direction: column !important;
+        gap: 10px !important;
+      }
+
+      /* Projects tabs — horizontal scroll */
+      .project-tabs {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        margin-bottom: 28px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .project-tabs::-webkit-scrollbar { display: none; }
+      .tab-btn {
+        flex-shrink: 0;
+        padding: 9px 16px;
+        font-size: 0.83rem;
+        white-space: nowrap;
+        border-radius: 8px;
+        min-height: 44px; /* touch target */
+      }
+
+      /* Projects single column */
+      .project-grid { grid-template-columns: 1fr; gap: 18px; }
+      .project-card { border-radius: 16px; }
+      .project-img, .project-img-placeholder { height: 175px; }
+      .project-body { padding: 18px; }
+      .project-card h4 { font-size: 1rem; margin-bottom: 8px; }
+      .project-card p { font-size: 0.87rem; margin-bottom: 16px; }
+      .project-tags { gap: 5px; margin-bottom: 16px; }
+      .tag { font-size: 0.72rem; padding: 3px 9px; }
+      .project-link { font-size: 0.85rem; min-height: 44px; display: inline-flex; align-items: center; }
+
+      /* Certs */
+      .cert-grid { grid-template-columns: 1fr; gap: 16px; }
+      .cert-card { padding: 20px; }
+      .cert-card h4 { font-size: 0.95rem; }
+      .cert-card p { font-size: 0.84rem; }
+
+      /* Tech Stack */
+      .stack-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 32px;
+      }
+      .stack-item { padding: 16px 8px; border-radius: 12px; }
+      .stack-item img { width: 36px; height: 36px; margin-bottom: 8px; }
+      .stack-item span { font-size: 0.72rem; }
+
+      /* Contact */
+      .contact-wrap {
+        padding: 40px 20px;
+        border-radius: 20px;
+      }
+      .contact-wrap h2 { font-size: 1.8rem; margin-bottom: 12px; }
+      .contact-wrap p { font-size: 0.9rem; margin-bottom: 28px; }
+      .contact-email {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 20px;
+        font-size: 0.95rem;
+        border-radius: 12px;
+      }
+      .social-bar { gap: 12px; margin-top: 28px; flex-wrap: wrap; justify-content: center; }
+      .social-btn { width: 48px; height: 48px; border-radius: 10px; font-size: 1.1rem; }
+
+      /* Footer */
+      footer { padding: 20px 16px 80px; font-size: 0.8rem; }
+
+      /* Back to top — lifted above bottom nav */
+      #backToTop { right: 16px; bottom: 80px; width: 44px; height: 44px; font-size: 1rem; border-radius: 10px; }
+
+      /* ── MOBILE BOTTOM NAV ── */
+      .mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        background: rgba(13, 19, 32, 0.95);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid var(--border);
+        padding: 8px 0 env(safe-area-inset-bottom, 8px);
+      }
+      .mobile-nav a {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        padding: 6px 4px;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .mobile-nav a i { font-size: 1.1rem; transition: transform 0.2s; }
+      .mobile-nav a:hover, .mobile-nav a.active { color: var(--teal); }
+      .mobile-nav a:hover i { transform: translateY(-2px); }
     }
-    @media (min-width:768px) {
-      .nav-mobile { display: none; }
+
+    /* ── Show/hide bottom nav ── */
+    .mobile-nav { display: none; }
+    @media (max-width: 599px) {
+      .mobile-nav { display: flex; }
+    }
+
+    /* ── Desktop: always hide mobile toggle and bottom nav ── */
+    @media (min-width: 600px) {
+      #menu-toggle { display: none; }
+      .mobile-nav { display: none !important; }
+    }
+    @media (min-width: 900px) {
+      .nav-desktop { display: flex; }
+      .btn-hire { display: inline-block; }
     }
   </style>
 </head>
+<body>
 
-<body class="bg-slate-900 text-white font-sans antialiased dark:bg-white dark:text-gray-900">
-  <header class="sticky top-0 z-50 bg-slate-900/80 dark:bg-white/80 backdrop-blur-md border-b border-slate-800/30">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="#" class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-cyan-400">
-        Chidubem Onubogu
-      </a>
+  <div class="blob-wrap">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
 
-      <nav class="nav-desktop hidden md:flex items-center gap-6 text-sm">
-        <a href="#about" class="hover:text-teal-400 transition">About</a>
-        <a href="#projects" class="hover:text-teal-400 transition">Projects</a>
-        <a href="#certificates" class="hover:text-teal-400 transition">Certificates</a>
-        <a href="#tech-stack" class="hover:text-teal-400 transition">Tech Stack</a>
-        <a href="#contact" class="hover:text-teal-400 transition">Contact</a>
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <a href="#" class="logo">Chidubem.</a>
+      <nav class="nav-desktop">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#certificates">Certs</a>
+        <a href="#tech-stack">Stack</a>
+        <a href="#contact">Contact</a>
       </nav>
-
-      <div class="flex items-center gap-3">
-        <button id="theme-toggle" class="p-2 rounded-md hover:scale-105 transition" aria-label="Toggle theme">🌙</button>
-        <button id="menu-toggle" class="md:hidden p-2 rounded-md" aria-label="Toggle menu">☰</button>
+      <div class="header-actions">
+        <a href="mailto:onuboguchidubem@gmail.com" class="btn-hire">Hire Me</a>
+        <button id="menu-toggle" aria-label="Menu">☰</button>
       </div>
     </div>
-
-    <nav id="mobile-menu" class="nav-mobile bg-slate-800 dark:bg-gray-100 md:hidden">
-      <div class="max-w-3xl mx-auto px-6 py-4 flex flex-col gap-3 text-center">
-        <a href="#about" class="py-2 rounded hover:bg-slate-700 dark:hover:bg-gray-200 transition">About</a>
-        <a href="#projects" class="py-2 rounded hover:bg-slate-700 dark:hover:bg-gray-200 transition">Projects</a>
-        <a href="#certificates" class="py-2 rounded hover:bg-slate-700 dark:hover:bg-gray-200 transition">Certificates</a>
-        <a href="#tech-stack" class="py-2 rounded hover:bg-slate-700 dark:hover:bg-gray-200 transition">Tech Stack</a>
-        <a href="#contact" class="py-2 rounded hover:bg-slate-700 dark:hover:bg-gray-200 transition">Contact</a>
-      </div>
+    <nav id="mobile-menu">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#certificates">Certificates</a>
+      <a href="#tech-stack">Tech Stack</a>
+      <a href="#contact">Contact</a>
     </nav>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4">
-    <section id="hero" class="pt-10 pb-12 flex flex-col md:flex-row items-center gap-8">
-      <div class="reveal md:w-1/2 space-y-6">
-        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
-          Hi, I'm <span class="text-teal-400 dark:text-teal-500">Chidubem</span>
-        </h1>
-        <p class="text-slate-300 dark:text-slate-700 text-lg md:text-xl max-w-xl">
-          I turn complex data into intelligent solutions — blending analytics, storytelling, and AI/ML engineering to drive real-world impact.
-        </p>
+  <main>
 
-        <div class="flex flex-wrap gap-3">
-          <a href="#projects" class="hover-rise inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-semibold py-2 px-4 rounded-lg shadow">
-            View My Work
-          </a>
-        </div>
-      </div>
-
-      <div class="reveal md:w-1/3 hero-image relative">
-        <img src="img/DSC_0524_2.JPG" alt="Chidubem profile" class="rounded-2xl shadow-xl w-full h-auto object-cover" loading="lazy">
-        <div id="easter-egg" class="absolute bottom-3 right-3 text-2xl cursor-pointer">🚀</div>
-      </div>
-    </section>
-
-    <section id="about" class="reveal bg-slate-800 dark:bg-gray-100 rounded-2xl p-8 md:p-12 mb-12 hover-rise">
-      <div class="max-w-3xl mx-auto text-center space-y-6">
-        <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 dark:from-teal-600 dark:to-cyan-600">
-          About Me
-        </h2>
-
-        <p class="text-slate-300 dark:text-gray-700 leading-relaxed">
-          I’m a <span class="font-semibold text-teal-400 dark:text-teal-600">Data Analyst</span> and 
-          <span class="font-semibold text-cyan-400 dark:text-cyan-600">AI/Machine Learning Engineer</span> 
-          passionate about transforming complex data into meaningful insights and building intelligent solutions that drive measurable impact.
-        </p>
-
-        <p class="text-slate-300 dark:text-gray-700 leading-relaxed">
-          With a strong background in <span class="font-semibold">data analytics, visualization, and model deployment</span>, 
-          I bridge the gap between raw information and real-world decision-making. 
-          I enjoy exploring patterns, automating workflows, and turning numbers into narratives that guide strategic outcomes.
-        </p>
-
-        <p class="text-slate-300 dark:text-gray-700 leading-relaxed">
-          My expertise spans <span class="font-semibold">Python, SQL, Power BI</span>, and 
-          <span class="font-semibold">Machine Learning frameworks</span> like TensorFlow and Scikit-learn — 
-          tools I use to deliver efficient, data-driven systems and intelligent models that solve real-world problems.
-        </p>
-
-        <div class="flex justify-center gap-4 pt-4 flex-wrap">
-          <a href="#projects" class="hover-rise px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-semibold">See Projects</a>
-          <a href="CHIDUBEM-BRIGHT-ONUBOGU-CV.pdf" download class="hover-rise px-4 py-2 rounded-lg bg-white text-slate-900 font-semibold">Download CV</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects" class="py-20 bg-slate-900 dark:bg-white reveal">
-  <div class="max-w-6xl mx-auto px-6 text-center">
-    <h3
-      class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 dark:from-teal-600 dark:to-cyan-600 mb-12">
-      Featured Projects</h3>
-
-    <h4 class="text-2xl font-semibold text-teal-300 dark:text-teal-600 mb-8 border-b-2 border-teal-500 inline-block pb-2">🧠 AI Projects</h4>
-
-    <div class="grid md:grid-cols-3 gap-8 mt-8">
-      <div class="bg-slate-800 dark:bg-gray-100 p-6 rounded-2xl shadow-lg transition transform hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(45,212,191,0.5)]">
-        <img src="img/Facial recognition system.jpg" alt="Facial recognition system"
-          class="w-full h-48 object-cover rounded-xl mb-4" loading="lazy">
-        <h4 class="text-xl font-semibold text-white dark:text-gray-900">Facial Recognition System</h4>
-        <p class="text-slate-400 dark:text-gray-700 mt-2">
-          Built a facial recognition system using a hybrid model of SNN and CNN for intuitive and highly accurate recognition.
-        </p>
-        <a href="https://github.com/Chidubem/Facial-Recognition-for-home-security-using-a-Hybrid-model" target="_blank"
-          class="mt-4 inline-block px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-xl shadow-lg transition duration-300 hover:shadow-[0_0_20px_rgba(45,212,191,0.7)]">
-          Go to Site
-        </a>
-      </div>
-
-      <div class="bg-slate-800 dark:bg-gray-100 p-6 rounded-2xl shadow-lg transition transform hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(45,212,191,0.5)]">
-        <img src="img/chatbot2.jpg" alt="NLP Chatbot"
-          class="w-full h-48 object-cover rounded-xl mb-4" loading="lazy">
-        <h4 class="text-xl font-semibold text-white dark:text-gray-900">NLP Chatbot</h4>
-        <p class="text-slate-400 dark:text-gray-700 mt-2">
-          Developed a natural language chatbot using spaCy and TensorFlow for conversational, context-aware responses.
-        </p>
-        <a href="https://github.com/Chidubem/AI-Chatbot" target="_blank"
-          class="mt-4 inline-block px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-xl shadow-lg transition duration-300 hover:shadow-[0_0_20px_rgba(45,212,191,0.7)]">
-          Go to Site
-        </a>
-      </div>
-
-      <div class="bg-slate-800 dark:bg-gray-100 p-6 rounded-2xl shadow-lg transition transform hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(45,212,191,0.5)]">
-        <img src="img/computer_vision.jpg" alt="Computer Vision System"
-          class="w-full h-48 object-cover rounded-xl mb-4" loading="lazy">
-        <h4 class="text-xl font-semibold text-white dark:text-gray-900">Computer Vision System Model</h4>
-        <p class="text-slate-400 dark:text-gray-700 mt-2">
-          Created an image recognition pipeline using CNNs and OpenCV to detect and classify real-world objects.
-        </p>
-        <a href="https://github.com/Chidubem/Object-Detection-Model" target="_blank"
-          class="mt-4 inline-block px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-xl shadow-lg transition duration-300 hover:shadow-[0_0_20px_rgba(45,212,191,0.7)]">
-          Go to Site
-        </a>
-      </div>
-
-      <div class="bg-slate-800 dark:bg-gray-100 p-6 rounded-2xl shadow-lg transition transform hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(45,212,191,0.5)]">
-        <img src="img/ai news.jpg" alt="AI Media News app"
-          class="w-full h-48 object-cover rounded-xl mb-4" loading="lazy">
-        <h4 class="text-xl font-semibold text-white dark:text-gray-900">AI Media News App</h4>
-        <p class="text-slate-400 dark:text-gray-700 mt-2">
-          Developed an AI-powered news app that classifies images and articles using CNN models.
-        </p>
-        <a href="https://github.com/Chidubem/AI-Media-News-App" target="_blank"
-          class="mt-4 inline-block px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-xl shadow-lg transition duration-300 hover:shadow-[0_0_20px_rgba(45,212,191,0.7)]">
-          Go to Site
-        </a>
-      </div>
-    
-
-    <div class="bg-slate-800 dark:bg-gray-100 p-6 rounded-2xl shadow-lg transition transform hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(45,212,191,0.5)]">
-        <img src="img/fitness.jpg" alt="AI Media News app"
-          class="w-full h-48 object-cover rounded-xl mb-4" loading="lazy">
-        <h4 class="text-xl font-semibold text-white dark:text-gray-900">AI Fitness App</h4>
-        <p class="text-slate-400 dark:text-gray-700 mt-2">
-          Developed an AI-powered Fitness app that utilizes machine learning models to track and recommend workout plans, meals and calories.
-        </p>
-        <a href="https://github.com/Chidubem/AI-Fitness-App" target="_blank"
-          class="mt-4 inline-block px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-xl shadow-lg transition duration-300 hover:shadow-[0_0_20px_rgba(45,212,191,0.7)]">
-          Go to Site
-        </a>
-      </div>
-    
-
-    <div class="bg-slate-800 dark:bg-gray-100 p-6 rounded-2xl shadow-lg transition transform hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(45,212,191,0.5)]">
-        <img src="img/weatherimg.jpg" alt="AI Media News app"
-          class="w-full h-48 object-cover rounded-xl mb-4" loading="lazy">
-        <h4 class="text-xl font-semibold text-white dark:text-gray-900">Weather Prediction Model</h4>
-        <p class="text-slate-400 dark:text-gray-700 mt-2">
-          Developed a machine learning based weather prediction model, using Linear Regression.
-        </p>
-        <a href="https://github.com/Chidubem/Weather-Prediction-Model-" target="_blank"
-          class="mt-4 inline-block px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-xl shadow-lg transition duration-300 hover:shadow-[0_0_20px_rgba(45,212,191,0.7)]">
-          Go to Site
-        </a>
-      </div>
-    </div>
-
-    <div class="mt-20">
-      <h4 class="text-2xl font-semibold text-teal-300 dark:text-teal-600 mb-8 border-b-2 border-teal-500 inline-block pb-2">📊 Data Analysis Projects</h4>
-
-      <div class="grid md:grid-cols-3 gap-8 mt-8">
-        <div class="bg-slate-800 dark:bg-gray-100 p-6 rounded-2xl shadow-lg transition transform hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(45,212,191,0.5)]">
-          <img src="img/Dashboard 2.png" alt="Data Dashboard"
-            class="w-full h-48 object-cover rounded-xl mb-4" loading="lazy">
-          <h4 class="text-xl font-semibold text-white dark:text-gray-900">Financial Data Analysis</h4>
-          <p class="text-slate-400 dark:text-gray-700 mt-2">
-            Developed cluster tables, perfomed EDA and visualized Financial data to gain insights using Python libraries and frameworks.
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-badge reveal">Available for Work</div>
+          <h1 class="hero-title reveal reveal-delay-1">
+            Hi, I'm<br><span class="accent">Chidubem</span>
+          </h1>
+          <p class="hero-desc reveal reveal-delay-2">
+            I turn complex data into intelligent solutions — blending analytics, storytelling, and AI/ML engineering to drive real-world impact.
           </p>
-          <a href="https://github.com/Chidubem/Financial-Data-Analysis" target="_blank"
-            class="mt-4 inline-block px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-xl shadow-lg transition duration-300 hover:shadow-[0_0_20px_rgba(45,212,191,0.7)]">
-            Go to Site
-          </a>
+          <div class="hero-ctas reveal reveal-delay-3">
+            <a href="#projects" class="btn-primary">View My Work →</a>
+            <a href="CHIDUBEM-BRIGHT-ONUBOGU-CV.pdf" download class="btn-outline">↓ Download CV</a>
+          </div>
+          <div class="hero-stats reveal">
+            <div>
+              <div class="stat-num"><span>14+</span></div>
+              <div class="stat-label">Projects Built</div>
+            </div>
+            <div>
+              <div class="stat-num"><span>2</span></div>
+              <div class="stat-label">Certifications</div>
+            </div>
+            <div>
+              <div class="stat-num"><span>3</span></div>
+              <div class="stat-label">Domains</div>
+            </div>
+          </div>
         </div>
-
-        <div class="bg-slate-800 dark:bg-gray-100 p-6 rounded-2xl shadow-lg transition transform hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(45,212,191,0.5)]">
-          <img src="img/finance.jpeg" alt="Customer Segmentation"
-            class="w-full h-48 object-cover rounded-xl mb-4" loading="lazy">
-          <h4 class="text-xl font-semibold text-white dark:text-gray-900">Customer Segmentation</h4>
-          <p class="text-slate-400 dark:text-gray-700 mt-2">
-            Used clustering and visualization techniques to segment customers and identify key demographics.
-          </p>
-          <a href="https://github.com/Chidubem/AI-and-Data" target="_blank"
-            class="mt-4 inline-block px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-xl shadow-lg transition duration-300 hover:shadow-[0_0_20px_rgba(45,212,191,0.7)]">
-            Go to Site
-          </a>
-        </div>
-
-        <div class="bg-slate-800 dark:bg-gray-100 p-6 rounded-2xl shadow-lg transition transform hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(45,212,191,0.5)]">
-          <img src="img/Dashboard 1.png" alt="Sales Forecasting Dashboard"
-            class="w-full h-48 object-cover rounded-xl mb-4" loading="lazy">
-          <h4 class="text-xl font-semibold text-white dark:text-gray-900">Sales Forecasting Dashboard</h4>
-          <p class="text-slate-400 dark:text-gray-700 mt-2">
-            Built an interactive dashboard combining regression models and visualization to forecast sales performance.
-          </p>
-          <a href="https://github.com/Chidubem/AI-and-Data" target="_blank"
-            class="mt-4 inline-block px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-xl shadow-lg transition duration-300 hover:shadow-[0_0_20px_rgba(45,212,191,0.7)]">
-            Go to Site
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-    <section id="certificates" class="py-10">
-      <div class="text-center mb-8">
-        <h3 class="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">📜 Certificates</h3>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="hover-rise bg-slate-900 dark:bg-white p-6 rounded-2xl shadow-lg">
-          <img src="img/Ec.council.png" alt="EC-Council Certificate" class="cert-img">
-          <h4 class="mt-4 font-semibold">EC-Council Certification</h4>
-          <p class="text-slate-400 dark:text-gray-700 mt-1">Cybersecurity & Information Assurance (EC-Council).</p>
-        </div>
-
-        <div class="hover-rise bg-slate-900 dark:bg-white p-6 rounded-2xl shadow-lg">
-          <img src="img/new-horizon.png" alt="New Horizons Certificate" class="cert-img">
-          <h4 class="mt-4 font-semibold">New Horizons AI/ML Certificate</h4>
-          <p class="text-slate-400 dark:text-gray-700 mt-1">Advanced AI & Machine Learning program completion.</p>
+        <div class="hero-image reveal">
+          <img src="img/DSC_0524_2.JPG" alt="Chidubem profile" loading="lazy">
         </div>
       </div>
     </section>
 
-    <section id="tech-stack" class="py-10">
-      <div class="text-center mb-6">
-        <h3 class="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">⚙️ Tech Stack</h3>
-      </div>
-
-      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-8 gap-6 items-center text-center mt-6">
-        <div class="hover-rise"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" class="mx-auto w-12 h-12"><p class="text-sm mt-2">Python</p></div>
-        <div class="hover-rise"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" class="mx-auto w-12 h-12"><p class="text-sm mt-2">SQL</p></div>
-        <div class="hover-rise"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" class="mx-auto w-12 h-12"><p class="text-sm mt-2">TensorFlow</p></div>
-        <div class="hover-rise"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" class="mx-auto w-12 h-12"><p class="text-sm mt-2">Scikit-learn</p></div>
-        <div class="hover-rise"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" class="mx-auto w-12 h-12"><p class="text-sm mt-2">Pandas</p></div>
-        <div class="hover-rise"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" class="mx-auto w-12 h-12"><p class="text-sm mt-2">NumPy</p></div>
-        <div class="hover-rise"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg" class="mx-auto w-12 h-12"><p class="text-sm mt-2">Matplotlib</p></div>
-        <div class="hover-rise">
-          <img src="https://cdn-icons-png.flaticon.com/512/5968/5968705.png" class="mx-auto w-12 h-12" alt="Power BI">
-          <p class="text-sm mt-2">Power BI</p>
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <div class="section-label">About Me</div>
+          <h2 class="section-title">Data, AI & Software — all in one</h2>
+          <p>I'm a <strong>Data Analyst</strong> and <strong>AI/Machine Learning Engineer</strong> passionate about transforming complex data into meaningful insights and building intelligent solutions that drive measurable impact.</p>
+          <p>With a strong background in <strong>data analytics, visualization, and model deployment</strong>, I bridge the gap between raw information and real-world decision-making. I also build full software products — from e-commerce platforms to healthcare systems.</p>
+          <p>My expertise spans <strong>Python, SQL, Power BI</strong>, and ML frameworks like TensorFlow and Scikit-learn, as well as web development technologies for shipping end-to-end products.</p>
+          <div class="skills-grid">
+            <span class="skill-pill">Python</span>
+            <span class="skill-pill">TensorFlow</span>
+            <span class="skill-pill">Scikit-learn</span>
+            <span class="skill-pill">SQL</span>
+            <span class="skill-pill">Power BI</span>
+            <span class="skill-pill">OpenCV</span>
+            <span class="skill-pill">spaCy</span>
+            <span class="skill-pill">Web Dev</span>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:32px;">
+            <a href="#projects" class="btn-primary">View Projects →</a>
+            <a href="CHIDUBEM-BRIGHT-ONUBOGU-CV.pdf" download class="btn-outline">↓ CV</a>
+          </div>
         </div>
-
-        <div class="hover-rise"><img src="https://cdn-icons-png.flaticon.com/512/732/732220.png" class="mx-auto w-12 h-12"><p class="text-sm mt-2">Excel</p></div>
+        <div class="about-card reveal">
+          <div class="about-card-item">
+            <div class="about-icon">🧠</div>
+            <div>
+              <h4>AI / Machine Learning</h4>
+              <p>CNNs, SNNs, NLP models, computer vision pipelines — building and deploying intelligent systems.</p>
+            </div>
+          </div>
+          <div class="about-card-item">
+            <div class="about-icon">📊</div>
+            <div>
+              <h4>Data Analysis</h4>
+              <p>EDA, clustering, forecasting dashboards, and financial data visualization using Python & Power BI.</p>
+            </div>
+          </div>
+          <div class="about-card-item">
+            <div class="about-icon">💻</div>
+            <div>
+              <h4>Software Development</h4>
+              <p>Full-stack web applications — fashion e-marketing platforms and healthcare shopping systems.</p>
+            </div>
+          </div>
+          <div class="about-card-item">
+            <div class="about-icon">🔐</div>
+            <div>
+              <h4>Cybersecurity Awareness</h4>
+              <p>EC-Council certified with knowledge in information assurance and security principles.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="contact" class="py-12">
-      <div class="max-w-3xl mx-auto text-center bg-slate-800 dark:bg-gray-100 p-8 rounded-2xl reveal hover-rise">
-        <h3 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">Let's Connect</h3>
-        <p class="text-slate-300 dark:text-gray-700 mt-2">Interested in collaborating? Send me an email directly.</p>
-        <div class="mt-4">
-          <a href="mailto:onuboguchidubem@gmail.com" class="hover-rise inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white py-2 px-4 rounded-lg">✉️ Send me a message 😁</a>
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="reveal" style="margin-bottom:48px;">
+        <div class="section-label">Portfolio</div>
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-sub">A collection of AI, data analysis, and software projects I've built from concept to deployment.</p>
+      </div>
+
+      <div class="project-tabs reveal">
+        <button class="tab-btn active" data-tab="ai">🧠 AI Projects</button>
+        <button class="tab-btn" data-tab="data">📊 Data Analysis</button>
+        <button class="tab-btn" data-tab="software">💻 Software</button>
+      </div>
+
+      <!-- AI Projects -->
+      <div class="project-panel active" id="tab-ai">
+        <div class="project-grid">
+
+          <div class="project-card reveal">
+            <img src="img/Facial recognition system.jpg" alt="Facial Recognition" class="project-img" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="project-img-placeholder" style="display:none;background:linear-gradient(135deg,#0d2137,#0a1f2e);">🔍</div>
+            <div class="project-body">
+              <span class="project-type">Computer Vision</span>
+              <h4>Facial Recognition System</h4>
+              <p>Built a facial recognition system using a hybrid model of SNN and CNN for intuitive and highly accurate recognition — designed for home security use cases.</p>
+              <div class="project-tags"><span class="tag">Python</span><span class="tag">CNN</span><span class="tag">SNN</span><span class="tag">OpenCV</span></div>
+              <a href="https://github.com/Chidubem/Facial-Recognition-for-home-security-using-a-Hybrid-model" target="_blank" class="project-link">View on GitHub →</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal reveal-delay-1">
+            <img src="img/chatbot2.jpg" alt="NLP Chatbot" class="project-img" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="project-img-placeholder" style="display:none;background:linear-gradient(135deg,#0d1f2d,#091825);">💬</div>
+            <div class="project-body">
+              <span class="project-type">NLP</span>
+              <h4>NLP Chatbot</h4>
+              <p>Developed a natural language chatbot using spaCy and TensorFlow for conversational, context-aware responses across multiple domains.</p>
+              <div class="project-tags"><span class="tag">Python</span><span class="tag">TensorFlow</span><span class="tag">spaCy</span><span class="tag">NLP</span></div>
+              <a href="https://github.com/Chidubem/AI-Chatbot" target="_blank" class="project-link">View on GitHub →</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal reveal-delay-2">
+            <img src="img/computer_vision.jpg" alt="Computer Vision" class="project-img" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="project-img-placeholder" style="display:none;background:linear-gradient(135deg,#0d2a1f,#091f17);">👁️</div>
+            <div class="project-body">
+              <span class="project-type">Computer Vision</span>
+              <h4>Computer Vision System Model</h4>
+              <p>Created an image recognition pipeline using CNNs and OpenCV to detect and classify real-world objects with high precision.</p>
+              <div class="project-tags"><span class="tag">Python</span><span class="tag">CNN</span><span class="tag">OpenCV</span><span class="tag">Keras</span></div>
+              <a href="https://github.com/Chidubem/Object-Detection-Model" target="_blank" class="project-link">View on GitHub →</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal">
+            <img src="img/ai news.jpg" alt="AI News App" class="project-img" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="project-img-placeholder" style="display:none;background:linear-gradient(135deg,#1a1a0d,#12120a);">📰</div>
+            <div class="project-body">
+              <span class="project-type">AI Application</span>
+              <h4>AI Media News App</h4>
+              <p>An AI-powered news app that classifies images and articles using CNN models, delivering smarter, personalized content discovery.</p>
+              <div class="project-tags"><span class="tag">Python</span><span class="tag">CNN</span><span class="tag">Classification</span></div>
+              <a href="https://github.com/Chidubem/AI-Media-News-App" target="_blank" class="project-link">View on GitHub →</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal reveal-delay-1">
+            <img src="img/fitness.jpg" alt="AI Fitness" class="project-img" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="project-img-placeholder" style="display:none;background:linear-gradient(135deg,#1a0d1a,#100a10);">💪</div>
+            <div class="project-body">
+              <span class="project-type">AI Application</span>
+              <h4>AI Fitness App</h4>
+              <p>An AI-powered fitness app that uses machine learning to track and recommend personalized workout plans, meals, and calorie goals.</p>
+              <div class="project-tags"><span class="tag">Python</span><span class="tag">ML</span><span class="tag">Recommendation</span></div>
+              <a href="https://github.com/Chidubem/AI-Fitness-App" target="_blank" class="project-link">View on GitHub →</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal reveal-delay-2">
+            <img src="img/weatherimg.jpg" alt="Weather Model" class="project-img" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="project-img-placeholder" style="display:none;background:linear-gradient(135deg,#0d1a2a,#09121f);">🌦️</div>
+            <div class="project-body">
+              <span class="project-type">Predictive Model</span>
+              <h4>Weather Prediction Model</h4>
+              <p>A machine learning-based weather prediction model leveraging Linear Regression to forecast meteorological conditions accurately.</p>
+              <div class="project-tags"><span class="tag">Python</span><span class="tag">Scikit-learn</span><span class="tag">Regression</span></div>
+              <a href="https://github.com/Chidubem/Weather-Prediction-Model-" target="_blank" class="project-link">View on GitHub →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Data Analysis Projects -->
+      <div class="project-panel" id="tab-data">
+        <div class="project-grid">
+
+          <div class="project-card reveal">
+            <img src="img/Dashboard 2.png" alt="Financial Analysis" class="project-img" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="project-img-placeholder" style="display:none;background:linear-gradient(135deg,#0d2a1a,#091f12);">💹</div>
+            <div class="project-body">
+              <span class="project-type">Data Analysis</span>
+              <h4>Financial Data Analysis</h4>
+              <p>Developed cluster tables, performed EDA and visualized financial data to gain insights using Python libraries and visualization frameworks.</p>
+              <div class="project-tags"><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Matplotlib</span><span class="tag">EDA</span></div>
+              <a href="https://github.com/Chidubem/Financial-Data-Analysis" target="_blank" class="project-link">View on GitHub →</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal reveal-delay-1">
+            <img src="img/finance.jpeg" alt="Customer Segmentation" class="project-img" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="project-img-placeholder" style="display:none;background:linear-gradient(135deg,#1a0d0d,#120909);">👥</div>
+            <div class="project-body">
+              <span class="project-type">Machine Learning</span>
+              <h4>Customer Segmentation</h4>
+              <p>Used clustering and visualization techniques to segment customers and identify key demographics for targeted marketing decisions.</p>
+              <div class="project-tags"><span class="tag">K-Means</span><span class="tag">Clustering</span><span class="tag">Seaborn</span></div>
+              <a href="https://github.com/Chidubem/AI-and-Data" target="_blank" class="project-link">View on GitHub →</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal reveal-delay-2">
+            <img src="img/Dashboard 1.png" alt="Sales Dashboard" class="project-img" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="project-img-placeholder" style="display:none;background:linear-gradient(135deg,#1a1a0d,#12120a);">📈</div>
+            <div class="project-body">
+              <span class="project-type">Dashboard</span>
+              <h4>Sales Forecasting Dashboard</h4>
+              <p>Built an interactive dashboard combining regression models and visualization to forecast sales performance and support business strategy.</p>
+              <div class="project-tags"><span class="tag">Power BI</span><span class="tag">Regression</span><span class="tag">SQL</span></div>
+              <a href="https://github.com/Chidubem/AI-and-Data" target="_blank" class="project-link">View on GitHub →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Software Projects -->
+      <div class="project-panel" id="tab-software">
+        <div class="project-grid">
+
+          <div class="project-card reveal">
+            <div class="project-img-placeholder" style="background:linear-gradient(135deg,#1a0d1a,#12091f); font-size:4rem;">👗</div>
+            <div class="project-body">
+              <span class="project-type">E-Commerce · Web App</span>
+              <h4>Fashion E-Marketing Website</h4>
+              <p>A full-featured fashion e-marketing platform with product listings, collections showcase, and a seamless shopping experience — built for modern fashion brands looking to grow online.</p>
+              <div class="project-tags"><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span><span class="tag">E-Commerce</span><span class="tag">UI/UX</span></div>
+              <a href="https://github.com/Chidubem" target="_blank" class="project-link">View on GitHub →</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal reveal-delay-1">
+            <div class="project-img-placeholder" style="background:linear-gradient(135deg,#0d1f2d,#081520); font-size:4rem;">🏥</div>
+            <div class="project-body">
+              <span class="project-type">Healthcare · Web App</span>
+              <h4>Healthcare Equipment Shopping Website</h4>
+              <p>A robust healthcare equipment e-commerce system enabling medical professionals and consumers to browse, compare, and purchase equipment — designed with trust, clarity, and accessibility in mind.</p>
+              <div class="project-tags"><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span><span class="tag">Healthcare</span><span class="tag">E-Commerce</span></div>
+              <a href="https://github.com/Chidubem" target="_blank" class="project-link">View on GitHub →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CERTIFICATES -->
+    <section id="certificates">
+      <div class="reveal" style="margin-bottom:48px;">
+        <div class="section-label">Credentials</div>
+        <h2 class="section-title">Certificates</h2>
+        <p class="section-sub">Professional certifications validating expertise in AI/ML and cybersecurity.</p>
+      </div>
+      <div class="cert-grid">
+        <div class="cert-card reveal">
+          <img src="img/Ec.council.png" alt="EC-Council Certificate" class="cert-img" loading="lazy">
+          <h4>EC-Council Certification</h4>
+          <p>Cybersecurity & Information Assurance — issued by EC-Council.</p>
+        </div>
+        <div class="cert-card reveal reveal-delay-1">
+          <img src="img/new-horizon.png" alt="New Horizons Certificate" class="cert-img" loading="lazy">
+          <h4>New Horizons AI/ML Certificate</h4>
+          <p>Advanced AI & Machine Learning program completion.</p>
         </div>
       </div>
     </section>
+
+    <!-- TECH STACK -->
+    <section id="tech-stack">
+      <div class="reveal" style="text-align:center;margin-bottom:0;">
+        <div class="section-label" style="justify-content:center;">Technologies</div>
+        <h2 class="section-title" style="text-align:center;">Tech Stack</h2>
+        <p class="section-sub" style="margin:0 auto;">Tools and technologies I use to build intelligent, data-driven, and scalable systems.</p>
+      </div>
+      <div class="stack-grid reveal">
+        <div class="stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"><span>Python</span></div>
+        <div class="stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL"><span>SQL</span></div>
+        <div class="stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" alt="TensorFlow"><span>TensorFlow</span></div>
+        <div class="stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" alt="Scikit-learn"><span>Scikit-learn</span></div>
+        <div class="stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="Pandas"><span>Pandas</span></div>
+        <div class="stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="NumPy"><span>NumPy</span></div>
+        <div class="stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg" alt="Matplotlib"><span>Matplotlib</span></div>
+        <div class="stack-item"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968705.png" alt="Power BI"><span>Power BI</span></div>
+        <div class="stack-item"><img src="https://cdn-icons-png.flaticon.com/512/732/732220.png" alt="Excel"><span>Excel</span></div>
+        <div class="stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"><span>HTML5</span></div>
+        <div class="stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"><span>CSS3</span></div>
+        <div class="stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript"><span>JavaScript</span></div>
+        <div class="stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" style="filter:invert(1)"><span>GitHub</span></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="contact-wrap reveal">
+        <div class="section-label" style="justify-content:center;">Get in Touch</div>
+        <h2>Let's Work Together</h2>
+        <p>Interested in collaborating on a data, AI, or software project? I'm open to freelance, internship, and full-time opportunities. Let's talk.</p>
+        <a href="mailto:onuboguchidubem@gmail.com" class="contact-email">✉️ Send me a message</a>
+        <div class="social-bar">
+          <a href="https://github.com/Chidubem/AI-and-Data" target="_blank" class="social-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://linkedin.com/in/chidubem-onubogu-4158a7395" target="_blank" class="social-btn linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="/" class="social-btn" aria-label="Website"><i class="fas fa-globe"></i></a>
+          <a href="mailto:onuboguchidubem@gmail.com" class="social-btn" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <section id="social-links" class="py-10 bg-slate-900 dark:bg-white">
-    <div class="max-w-xl mx-auto px-4 flex justify-center gap-8">
-      
-      <a href="https://github.com/Chidubem/AI-and-Data" target="_blank" class="social-icon-box" aria-label="GitHub Profile">
-        <i class="fas fa-brands fa-github text-3xl icon-default"></i>
-        <i class="fas fa-brands fa-github text-3xl icon-hover"></i>
-      </a>
-
-      <a href="https://linkedin.com/in/chidubem-onubogu-4158a7395" target="_blank" class="social-icon-box linkedin-color" aria-label="LinkedIn Profile">
-        <i class="fas fa-brands fa-linkedin-in text-3xl text-white"></i>
-      </a>
-      
-      <a href="/" target="_blank" class="social-icon-box" aria-label="Personal Website">
-        <i class="fas fa-solid fa-globe text-3xl icon-default"></i>
-        <i class="fas fa-solid fa-globe text-3xl icon-hover"></i>
-      </a>
-      
-      <a href="mailto:onuboguchidubem@gmail.com" class="social-icon-box" aria-label="Email Contact">
-        <i class="fas fa-solid fa-envelope text-3xl icon-default"></i>
-        <i class="fas fa-solid fa-envelope text-3xl icon-hover"></i>
-      </a>
-    </div>
-  </section>
-
-  <footer class="mt-12 py-6 text-center bg-slate-900 dark:bg-white">
-    <p class="text-sm text-slate-400 dark:text-gray-600">© <span id="year"></span> Chidubem. All rights reserved.</p>
+  <footer>
+    <p>© <span id="year"></span> Chidubem Onubogu — Data Analyst & AI/ML Engineer. All rights reserved.</p>
   </footer>
 
   <button id="backToTop" aria-label="Back to top">↑</button>
 
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="#hero" data-section="hero"><i class="fas fa-house"></i>Home</a>
+    <a href="#about" data-section="about"><i class="fas fa-user"></i>About</a>
+    <a href="#projects" data-section="projects"><i class="fas fa-code"></i>Work</a>
+    <a href="#tech-stack" data-section="tech-stack"><i class="fas fa-layer-group"></i>Stack</a>
+    <a href="#contact" data-section="contact"><i class="fas fa-envelope"></i>Contact</a>
+  </nav>
+
   <script>
-    // Intersection Observer for reveals
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+    // Reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
       });
-    }, { threshold: 0.18 });
+    }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // Mobile menu toggle
-    const menuToggle=document.getElementById('menu-toggle');
-    const mobileMenu=document.getElementById('mobile-menu');
-    menuToggle.addEventListener('click',()=>mobileMenu.classList.toggle('open'));
+    // Mobile menu
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('open');
+    });
+    document.querySelectorAll('#mobile-menu a').forEach(a => {
+      a.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('open'));
+    });
 
     // Back to top
-    const backToTop=document.getElementById('backToTop');
-    window.addEventListener('scroll',()=>window.scrollY>300?backToTop.classList.add('show'):backToTop.classList.remove('show'));
-    backToTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+    const btt = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => window.scrollY > 300 ? btt.classList.add('show') : btt.classList.remove('show'));
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    // Easter egg
-    const egg = document.getElementById('easter-egg');
-    if(egg) egg.addEventListener('click', () => {
-      egg.animate([
-        { transform: 'translateY(0) rotate(0)' },
-        { transform: 'translateY(-30px) rotate(-15deg)' },
-        { transform: 'translateY(0) rotate(12deg)' }
-      ], { duration: 800, easing: 'cubic-bezier(.2,.9,.3,1)'});
+    // Project tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.project-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
     });
 
-    // Theme toggle
-    const themeToggle=document.getElementById('theme-toggle');
-    const apply=(isDark)=>document.documentElement.classList.toggle('dark',isDark);
-    const stored=localStorage.getItem('theme');
-    const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
-    apply(stored?stored==='dark':prefersDark);
-    themeToggle.textContent=document.documentElement.classList.contains('dark')?'☀️':'🌙';
-    themeToggle.addEventListener('click',()=>{
-      const isDark=!document.documentElement.classList.contains('dark');
-      apply(isDark);localStorage.setItem('theme',isDark?'dark':'light');
-      themeToggle.textContent=isDark?'☀️':'🌙';
-    });
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Set year
-    document.getElementById('year').textContent=new Date().getFullYear();
+    // Mobile bottom nav — active section highlight
+    const sections = document.querySelectorAll('section[id]');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          mobileNavLinks.forEach(link => {
+            link.classList.toggle('active', link.dataset.section === id);
+          });
+        }
+      });
+    }, { threshold: 0.35, rootMargin: '-10% 0px -50% 0px' });
+    sections.forEach(s => sectionObserver.observe(s));
   </script>
 </body>
 </html>
-
-
-
